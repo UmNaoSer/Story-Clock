@@ -1,0 +1,385 @@
+=== .env.local ===
+GEMINI_API_KEY=PLACEHOLDER_API_KEY
+
+=== .gitignore ===
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+=== App.tsx ===
+const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<Tab>(Tab.Alphabet);
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case Tab.Alphabet:
+        return <Alphabet />;
+      case Tab.Catalog:
+        return <Catalog />;
+      case Tab.Creator:
+        return <Creator />;
+      default:
+        return <Alphabet />;
+    }
+  };
+
+  const NavButton: React.FC<{ tabName: Tab; icon: React.ReactNode }> = ({ tabName, icon }) => (
+    <button
+      onClick={() => setActiveTab(tabName)}
+      className={`flex-1 sm:flex-initial sm:w-48 flex items-center justify-center gap-2 px-4 py-3 rounded-t-lg font-orbitron text-sm md:text-base transition-all duration-300 border-b-4 ${
+        activeTab === tabName
+          ? 'bg-cosmic-purple/50 text-stellar-gold border-stellar-gold'
+          : 'bg-transparent text-light-nebula border-transparent hover:bg-cosmic-purple/30 hover:text-white'
+      }`}
+    >
+      {icon}
+      <span>{tabName}</span>
+    </button>
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-cosmic-purple to-black text-white font-cinzel">
+      <div className="container mx-auto px-4 py-8">
+        <header className="text-center mb-8">
+          <h1 className="text-5xl md:text-7xl font-cinzel text-stellar-gold" style={{ textShadow: '0 0 12px rgba(252, 211, 77, 0.8)' }}>
+            LUMINAR
+          </h1>
+          <p className="text-lg md:text-xl text-light-nebula font-orbitron mt-2">
+            O Oráculo das Ondas
+          </p>
+        </header>
+        
+        <nav className="flex flex-col sm:flex-row justify-center border-b border-indigo-500/30 mb-8">
+          <NavButton tabName={Tab.Alphabet} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v10H5V5z"/></svg>} />
+          <NavButton tabName={Tab.Catalog} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm1.5 3a.5.5 0 000 1h6a.5.5 0 000-1h-6zM5 8a.5.5 0 01.5-.5h6a.5.5 0 010 1h-6A.5.5 0 015 8zm0 3a.5.5 0 01.5-.5h6a.5.5 0 010 1h-6A.5.5 0 015 11z" clipRule="evenodd" /></svg>} />
+        </nav>
+
+        <main>
+          {renderContent()}
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+
+=== constants.ts ===
+export const LUMINAR_ALPHABET: LuminarLetter[] = [
+  {
+    name: 'A',
+    shape: '~~~~',
+    meaning: 'Origem, essência, nascimento',
+    category: 'Criação',
+    fullDescription: 'Representa o princípio, a semente de toda energia. É o ponto de partida, o "Eu Sou" do universo, a faísca inicial antes da expansão.',
+    exampleWords: ['AEL (Nascimento)', 'AOS (Fundação da Matéria)'],
+  },
+  {
+    name: 'E',
+    shape: '////',
+    meaning: 'Movimento, energia, ação',
+    category: 'Dinâmica',
+    fullDescription: 'A força que impulsiona a criação. É a vibração, a corrente que flui pelo cosmos, transformando potencial em realidade.',
+    exampleWords: ['EIT (Intenção em Ação)', 'ESL (Voz Energética)'],
+  },
+  {
+    name: 'I',
+    shape: '~^~^~',
+    meaning: 'Direção, mente, intenção',
+    category: 'Consciência',
+    fullDescription: 'A consciência que guia a energia. Representa o foco, o pensamento direcionado e a sabedoria que dá propósito ao movimento.',
+    exampleWords: ['IEL (Luz da Mente)', 'ITS (Ordem do Pensamento)'],
+  },
+  {
+    name: 'O',
+    shape: '∿∿',
+    meaning: 'Matéria, corpo, fundação',
+    category: 'Manifestação',
+    fullDescription: 'A manifestação física da energia e da intenção. É a forma, a estrutura tangível, o solo sobre o qual a realidade se constrói.',
+    exampleWords: ['OAT (Nascimento da Forma)', 'OS (Voz da Matéria)'],
+  },
+  {
+    name: 'U',
+    shape: '˄˄˄',
+    meaning: 'Vontade, impulso, ascensão',
+    category: 'Propulsão',
+    fullDescription: 'A força de vontade que busca transcender. É o desejo de evoluir, de subir a um plano superior, o impulso de crescimento.',
+    exampleWords: ['UAL (Ascensão à Luz)', 'UTS (Vontade que Ordena)'],
+  },
+  {
+    name: 'S',
+    shape: '≈≈',
+    meaning: 'Som, comunicação, memória',
+    category: 'Transmissão',
+    fullDescription: 'A vibração que carrega informação. Representa a comunicação, a ressonância, o eco do universo que guarda todas as memórias.',
+    exampleWords: ['SEL (Luz que Comunica)', 'SOT (A Lei do Som)'],
+  },
+  {
+    name: 'T',
+    shape: '─*─*─',
+    meaning: 'Estrutura, lei, ordem',
+    category: 'Estabilidade',
+    fullDescription: 'As leis cósmicas que governam a existência. É a ordem, o padrão, a estrutura que mantém o universo em harmonia e equilíbrio.',
+    exampleWords: ['TAL (A Lei da Luz)', 'TOS (A Estrutura do Som)'],
+  },
+  {
+    name: 'L',
+    shape: '∿‾∿‾',
+    meaning: 'Luz, transição, dualidade',
+    category: 'Revelação',
+    fullDescription: 'O meio pelo qual a energia viaja e se transforma. Representa a luz visível e invisível, as transições e a dualidade entre mundos.',
+    exampleWords: ['LA (Luz da Origem)', 'LEO (Transição da Matéria)'],
+  },
+];
+
+=== index.html ===
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luminar: O Oráculo das Ondas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #0c0a18;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              'cinzel': ['Cinzel', 'serif'],
+              'orbitron': ['Orbitron', 'sans-serif'],
+            },
+            colors: {
+              'cosmic-purple': '#1e1b4b',
+              'stellar-gold': '#fcd34d',
+              'light-nebula': '#d8b4fe',
+              'dark-nebula': '#a855f7',
+            },
+            textShadow: {
+              'glow': '0 0 8px rgba(252, 211, 77, 0.7)',
+            },
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
+
+=== index.tsx ===
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error("Could not find root element to mount to");
+}
+
+const root = ReactDOM.createRoot(rootElement);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+=== metadata.json ===
+{
+  "name": "Luminar: O Oráculo das Ondass",
+  "description": "An interactive application to explore, learn, and create with the fictional celestial language, Luminar, guided by a creative AI.",
+  "requestFramePermissions": []
+}
+
+=== package.json ===
+{
+  "name": "luminar:-o-oráculo-das-ondass",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "@google/genai": "^1.29.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
+
+=== README.md ===
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
+
+# Run and deploy your AI Studio app
+
+This contains everything you need to run your app locally.
+
+View your app in AI Studio: https://ai.studio/apps/temp/1
+
+## Run Locally
+
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
+
+=== tsconfig.json ===
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "module": "ESNext",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  }
+}
+
+=== types.ts ===
+export interface LuminarLetter {
+  name: 'A' | 'E' | 'I' | 'O' | 'U' | 'S' | 'T' | 'L';
+  shape: string;
+  meaning: string;
+  category: string;
+  fullDescription: string;
+  exampleWords: string[];
+}
+
+export enum Tab {
+  Alphabet = 'ALFABETO',
+  Catalog = 'CATÁLOGO',
+  Creator = 'CRIADOR',
+}
+
+export interface CreatedWord {
+  word: string;
+  meaning: string; // Stored as HTML string
+}
+
+
+declare global {
+  interface Window {
+    marked: {
+      parse: (markdown: string, options?: object) => string;
+    };
+  }
+}
+
+=== vite.config.ts ===
+import path from 'path';
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, '.', '');
+    return {
+      server: {
+        port: 3000,
+        host: '0.0.0.0',
+      },
+      plugins: [react()],
+      define: {
+        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      },
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '.'),
+        }
+      }
+    };
+});
+
+=== components/Alphabet.tsx ===
+[Contents of Alphabet.tsx component]
+
+=== components/Catalog.tsx ===
+[Contents of Catalog.tsx component]
+
+=== components/Creator.tsx ===
+[Contents of Creator.tsx component]
+
+=== components/Dictionary.tsx ===
+[Contents of Dictionary.tsx component]
+
+=== components/Loader.tsx ===
+[Contents of Loader.tsx component]
+
+=== services/geminiService.ts ===
+[Contents of geminiService.ts service]
